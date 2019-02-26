@@ -1,0 +1,11 @@
+25/2 2019
+## run through this experiment code(yes)
+
+## modify the loss function (to do)
+- get know the training process
+
+## find way to visulize the result (yes)
+- tensorboard
+- can view the loss and the precesion
+
+## reproduce the result and load the trained weight 

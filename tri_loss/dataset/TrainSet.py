@@ -45,7 +45,7 @@ class TrainSet(Dataset):
     Returns:
       ims: a list of images
     """
-    inds = self.ids_to_im_inds[self.ids[ptr]]
+    inds = self.ids_to_im_inds[list(self.ids)[ptr]]
     if len(inds) < self.ims_per_id:
       inds = np.random.choice(inds, self.ims_per_id, replace=True)
     else:
@@ -54,7 +54,7 @@ class TrainSet(Dataset):
     ims = [np.asarray(Image.open(osp.join(self.im_dir, name)))
            for name in im_names]
     ims, mirrored = zip(*[self.pre_process_im(im) for im in ims])
-    labels = [self.ids2labels[self.ids[ptr]] for _ in range(self.ims_per_id)]
+    labels = [self.ids2labels[list(self.ids)[ptr]] for _ in range(self.ims_per_id)]
     return ims, im_names, labels, mirrored
 
   def next_batch(self):
@@ -68,7 +68,7 @@ class TrainSet(Dataset):
     """
     # Start enqueuing and other preparation at the beginning of an epoch.
     if self.epoch_done and self.shuffle:
-      np.random.shuffle(self.ids)
+      np.random.shuffle(list(self.ids))
     samples, self.epoch_done = self.prefetcher.next_batch()
     im_list, im_names, labels, mirrored = zip(*samples)
     # t = time.time()

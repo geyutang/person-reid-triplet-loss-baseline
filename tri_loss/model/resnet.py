@@ -1,7 +1,7 @@
 import torch.nn as nn
 import math
 import torch.utils.model_zoo as model_zoo
-
+import copy
 __all__ = ['ResNet', 'resnet18', 'resnet34', 'resnet50', 'resnet101',
            'resnet152']
 
@@ -149,10 +149,12 @@ class ResNet(nn.Module):
 
 def remove_fc(state_dict):
   """Remove the fc layer parameters from state_dict."""
+  # add code for sove bug
+  new_state_dict = copy.deepcopy(state_dict) 
   for key, value in state_dict.items():
     if key.startswith('fc.'):
-      del state_dict[key]
-  return state_dict
+      del new_state_dict[key]
+  return new_state_dict
 
 
 def resnet18(pretrained=False, **kwargs):
